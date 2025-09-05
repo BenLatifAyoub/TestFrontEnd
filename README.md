@@ -91,8 +91,5 @@ The development process was executed in two primary phases, guided by an initial
 
 ## Future Improvements (With More Time)
 
--   **Global State Management:** For a real-world application, I would introduce a lightweight global state manager like **Zustand**. This would be useful for managing campaign data (e.g., the selected "Campaign Type" from Page 1) across all pages without prop-drilling.
 -   **Reusable Multi-Step Hook:** The logic for managing `subStep`, `handleNext`, and `handleBack` is repeated on several pages. I would extract this into a reusable custom hook (e.g., `useMultiStepForm`) to keep the page components cleaner.
 -   **Full Responsiveness:** I would add Tailwind's responsive breakpoints to ensure the layout is optimized for tablet and mobile devices, focusing on a single-column layout for smaller screens.
--   **Form Validation & Error Handling:** I would use libraries like **React Hook Form** and **Zod** to implement robust client-side validation on all user inputs (e.g., ensuring the Google Sheets URL is valid).
--   **Accessibility (a11y):** I would conduct a full accessibility audit, ensuring all interactive elements are keyboard-navigable, have proper focus states, and use appropriate ARIA attributes.
