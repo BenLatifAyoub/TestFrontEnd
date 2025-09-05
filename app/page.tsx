@@ -1,16 +1,34 @@
-import Link from 'next/link';
+'use client';
+
+import { useState } from 'react';
+import MainLayout from './components/MainLayout';
+import StaticProgressIndicator from './components/ProgressIndicator';
+import ChooseCampaignType from './components/steps/ChooseCampaignType';
+import CampaignGoal from './components/steps/CampaignGoal';
 
 export default function Page1() {
+  const [subStep, setSubStep] = useState(1);
+
+  const handleNextSubStep = () => setSubStep(2);
+  const handleBackSubStep = () => setSubStep(1);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-8">Step 1: Page 1</h1>
-        <Link href="/page2">
-          <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
-            Continue
-          </button>
-        </Link>
+    <MainLayout>
+      {/* UPDATED: Set max-w-4xl for 896px width */}
+      <div className="max-w-4xl flex mt-32 h-full">
+        <StaticProgressIndicator currentStep={1} />
+        
+        <div className="w-full">
+          {subStep === 1 && <CampaignGoal onNext={handleNextSubStep} />}
+          {subStep === 2 && <ChooseCampaignType onBack={handleBackSubStep} />}
+
+          {/* UPDATED: Set mt-32 for the 120px gap */}
+          <div className="bg-white p-8 rounded-2xl shadow-sm mt-32 opacity-50">
+            <h2 className="text-2xl font-semibold text-gray-900">2. Campaign Information</h2>
+            <p className="text-gray-600 mt-1">Upload a file or paste a link — we’ll pull the product and campaign details for you.</p>
+          </div>
+        </div>
       </div>
-    </main>
+    </MainLayout>
   );
 }

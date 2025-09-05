@@ -1,23 +1,52 @@
-import Link from 'next/link';
+'use client';
 
-export default function Page3() {
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import MainLayout from '../components/MainLayout';
+import StaticProgressIndicator from '../components/ProgressIndicator';
+import EmailSetup from '../components/page4-steps/EmailSetup';
+import GeneratingEmail from '../components/page4-steps/GeneratingEmail';
+import ReviewEmailDraft from '../components/page4-steps/ReviewEmailDraft';
+
+export default function Page4() {
+  const [subStep, setSubStep] = useState(1);
+  const router = useRouter();
+
+  const handleNext = () => {
+    if (subStep < 3) {
+      setSubStep(prev => prev + 1);
+    } else {
+      router.push('/');
+    }
+  };
+
+  const handleBack = () => {
+    if (subStep > 1) {
+      setSubStep(prev => prev - 1);
+    } else {
+      router.push('/page3');
+    }
+  };
+
+  const handleGenerationFinished = () => {
+    setSubStep(3);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-8">Step 3: Page 3</h1>
-        <div className="flex gap-4">
-          <Link href="/page2">
-            <button className="px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-75">
-              Back
-            </button>
-          </Link>
-          <Link href="/page4">
-            <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
-              Continue
-            </button>
-          </Link>
+    <MainLayout>
+      <div className="max-w-4xl flex mt-32 h-full">
+        <StaticProgressIndicator currentStep={4} />
+        <div className="w-full">
+          {/* Active card content for Page 4 */}
+          <div>
+            {subStep === 1 && <EmailSetup onBack={handleBack} onNext={handleNext} />}
+            {subStep === 2 && <GeneratingEmail onFinished={handleGenerationFinished} />}
+            {subStep === 3 && <ReviewEmailDraft onBack={handleBack} />}
+          </div>
+          
+          {/* No faded card needed on the final page */}
         </div>
       </div>
-    </main>
+    </MainLayout>
   );
 }
